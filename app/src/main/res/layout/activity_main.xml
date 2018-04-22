@@ -20,7 +20,7 @@
         app:layout_constraintBottom_toTopOf="@+id/textView5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/wildcard" />
+        app:layout_constraintTop_toBottomOf="@+id/broadcast" />
 
     <TextView
         android:id="@+id/address"
@@ -49,13 +49,13 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="netmask"
-        app:layout_constraintBottom_toTopOf="@+id/wildcard"
+        app:layout_constraintBottom_toTopOf="@+id/broadcast"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/address" />
 
     <TextView
-        android:id="@+id/wildcard"
+        android:id="@+id/broadcast"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
