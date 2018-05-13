@@ -1,16 +1,26 @@
 package eu.dziadosz.networks;
 
+import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.apache.commons.net.util.SubnetUtils;
 
+import java.math.BigInteger;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.OnEditorAction;
+import butterknife.OnLongClick;
 import butterknife.OnTextChanged;
 
 public class MainActivity extends AppCompatActivity {
@@ -39,10 +49,23 @@ public class MainActivity extends AppCompatActivity {
     EditText ip4;
     @BindView(R.id.mask_bits)
     EditText maskBits;
-
+    @BindView(R.id.network_binary)
+    TextView networkBinary;
+    @BindView(R.id.netmask_binary)
+    TextView netmaskBinary;
+    @BindView(R.id.address_binary)
+    TextView addressBinary;
+    @BindView(R.id.broadcast_binary)
+    TextView broadcastBinary;
+    @BindView(R.id.lowest_adr_binary)
+    TextView lowestAdrBinary;
+    @BindView(R.id.highest_adr_binary)
+    TextView highestAdrBinary;
+    @BindView(R.id.show_all_addresses_btn)
+    Button showAddressesBtn;
 
     private Snackbar incorrectAddressSnack;
-
+    private String[] allAddresses;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,18 +79,76 @@ public class MainActivity extends AppCompatActivity {
             R.id.ip2,
             R.id.ip3,
             R.id.ip4,
-            R.id.mask_bits
+            R.id.mask_bits,
     })
     protected void ipTextChanged() {
         ipChanged();
     }
-
+    @OnLongClick({
+            R.id.network_root,
+            R.id.netmask_root,
+            R.id.address_root,
+            R.id.broadcast_root,
+            R.id.lowest_adr_root,
+            R.id.highest_adr_root
+    })
+    protected boolean onRootLongClick(View view) {
+        String textToConvert = null;
+        TextView display = null;
+        switch (view.getId()) {
+            case R.id.network_root:
+                textToConvert = network.getText().toString();
+                display = networkBinary;
+                break;
+            case R.id.netmask_root:
+                textToConvert = netmask.getText().toString();
+                display = netmaskBinary;
+                break;
+            case R.id.address_root:
+                textToConvert = address.getText().toString();
+                display = addressBinary;
+                break;
+            case R.id.broadcast_root:
+                textToConvert = broadcast.getText().toString();
+                display = broadcastBinary;
+                break;
+            case R.id.lowest_adr_root:
+                textToConvert = lowestAdr.getText().toString();
+                display = lowestAdrBinary;
+                break;
+            case R.id.highest_adr_root:
+                textToConvert = highestAdr.getText().toString();
+                display = highestAdrBinary;
+                break;
+        }
+        if(textToConvert != null && display != null) {
+            int visibility = display.getVisibility();
+            if(visibility == View.GONE) {
+                try {
+                    byte[] bytes = InetAddress.getByName(textToConvert).getAddress();
+                    display.setText(new BigInteger(1, bytes).toString(2));
+                    display.setVisibility(View.VISIBLE);
+                } catch (UnknownHostException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                display.setVisibility(View.GONE);
+            }
+        }
+        return true;
+    }
+    @OnClick(R.id.show_all_addresses_btn)
+    protected void showAllAddresses() {
+        Intent intent = new Intent(this, AllAddressesActivity.class);
+        intent.putExtra(Constants.ADDRESSES, allAddresses);
+        startActivity(intent);
+    }
     @OnEditorAction({
             R.id.ip1,
             R.id.ip2,
             R.id.ip3,
             R.id.ip4,
-            R.id.mask_bits
+            R.id.mask_bits,
     })
     protected boolean ipChanged() {
         try {
@@ -82,7 +163,10 @@ public class MainActivity extends AppCompatActivity {
             lowestAdr.setText(subnet.getInfo().getLowAddress());
             highestAdr.setText(subnet.getInfo().getHighAddress());
             addressCount.setText(String.valueOf(subnet.getInfo().getAddressCountLong()));
+            allAddresses = subnet.getInfo().getAllAddresses();
             incorrectAddressSnack.dismiss();
+            showAddressesBtn.setEnabled(true);
+
         } catch (IllegalArgumentException e) {
             incorrectAddressSnack.show();
         }

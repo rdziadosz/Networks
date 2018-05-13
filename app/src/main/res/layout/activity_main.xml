@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     android:orientation="vertical"
     tools:context="eu.dziadosz.networks.MainActivity">
 
@@ -95,6 +96,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/network_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp">
@@ -114,7 +116,15 @@
             android:gravity="end" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/network_binary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:visibility="gone" />
+
     <LinearLayout
+        android:id="@+id/address_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp">
@@ -134,7 +144,15 @@
             android:gravity="end" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/address_binary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:visibility="gone" />
+
     <LinearLayout
+        android:id="@+id/netmask_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp">
@@ -154,7 +172,15 @@
             android:gravity="end" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/netmask_binary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:visibility="gone" />
+
     <LinearLayout
+        android:id="@+id/broadcast_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp">
@@ -174,7 +200,15 @@
             android:gravity="end" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/broadcast_binary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:visibility="gone" />
+
     <LinearLayout
+        android:id="@+id/lowest_adr_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp">
@@ -194,7 +228,15 @@
             android:gravity="end" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/lowest_adr_binary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:visibility="gone" />
+
     <LinearLayout
+        android:id="@+id/highest_adr_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp">
@@ -213,6 +255,13 @@
             android:layout_weight="0.5"
             android:gravity="end" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/highest_adr_binary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:visibility="gone" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -233,4 +282,13 @@
             android:layout_weight="0.5"
             android:gravity="end" />
     </LinearLayout>
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/show_all_addresses_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Wyświetl wszystkie adresy"
+        android:textColor="@android:color/white"
+        app:backgroundTint="@color/colorAccent"
+        android:enabled="false"/>
 </LinearLayout>
