@@ -15,6 +15,9 @@ import org.apache.commons.net.util.SubnetUtils;
 import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -65,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
     Button showAddressesBtn;
 
     private Snackbar incorrectAddressSnack;
-    private String[] allAddresses;
+    private SubnetUtils subnet;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -139,8 +142,9 @@ public class MainActivity extends AppCompatActivity {
     }
     @OnClick(R.id.show_all_addresses_btn)
     protected void showAllAddresses() {
+
         Intent intent = new Intent(this, AllAddressesActivity.class);
-        intent.putExtra(Constants.ADDRESSES, allAddresses);
+        intent.putExtra(Constants.ADDRESSES, subnet.getInfo().getAllAddresses());
         startActivity(intent);
     }
     @OnEditorAction({
@@ -152,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
     })
     protected boolean ipChanged() {
         try {
-            SubnetUtils subnet = new SubnetUtils(ip1.getText().toString() + "." +
+            subnet = new SubnetUtils(ip1.getText().toString() + "." +
                     ip2.getText().toString() + "." + ip3.getText().toString() + "." + ip4.getText().toString() +
                     "/" + maskBits.getText().toString());
 
@@ -163,7 +167,6 @@ public class MainActivity extends AppCompatActivity {
             lowestAdr.setText(subnet.getInfo().getLowAddress());
             highestAdr.setText(subnet.getInfo().getHighAddress());
             addressCount.setText(String.valueOf(subnet.getInfo().getAddressCountLong()));
-            allAddresses = subnet.getInfo().getAllAddresses();
             incorrectAddressSnack.dismiss();
             showAddressesBtn.setEnabled(true);
 
