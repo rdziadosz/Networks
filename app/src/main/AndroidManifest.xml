@@ -10,15 +10,24 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".IpActivity"
             android:windowSoftInputMode="adjustResize">
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+        <activity android:name=".AllAddressesActivity" />
+        <activity
+            android:name=".NetworksActivity"
+            android:label="@string/title_activity_networks"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".AllAddressesActivity"></activity>
+            </intent-filter></activity>
     </application>
 
 </manifest>

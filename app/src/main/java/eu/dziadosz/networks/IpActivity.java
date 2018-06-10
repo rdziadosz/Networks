@@ -26,7 +26,7 @@ import butterknife.OnEditorAction;
 import butterknife.OnLongClick;
 import butterknife.OnTextChanged;
 
-public class MainActivity extends AppCompatActivity {
+public class IpActivity extends AppCompatActivity {
 
     @BindView(R.id.network)
     TextView network;
