@@ -75,10 +75,14 @@ public class IpActivity extends AppCompatActivity {
         incorrectAddressSnack = Snackbar.make(network, "Niepoprawny adres IP", Snackbar.LENGTH_INDEFINITE);
         String address = getIntent().getStringExtra(Constants.ADDRESS);
         String[] addressParts = address.split("\\.");
+        String lastPart[] = addressParts[3].split("/");
+        addressParts[3] = lastPart[0];
+        String mask = lastPart[1];
         ip1.setText(addressParts[0]);
         ip2.setText(addressParts[1]);
         ip3.setText(addressParts[2]);
         ip4.setText(addressParts[3]);
+        maskBits.setText(mask);
     }
     @OnTextChanged({
             R.id.ip1,
