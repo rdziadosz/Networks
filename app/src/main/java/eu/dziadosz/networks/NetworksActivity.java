@@ -40,7 +40,7 @@ public class NetworksActivity extends AppCompatActivity implements FullSubnetsFr
                 toolbar.getContext(),
                 new String[]{
                         "Generowanie sieci pełnych",
-                        "Adresowanie ciągłe",
+                        "Równe podsieci",
                         "Minimalna liczba wolnych adresów w podsieci",
                 }));
 
@@ -133,7 +133,7 @@ public class NetworksActivity extends AppCompatActivity implements FullSubnetsFr
                 case 0:
                     return new FullSubnetsFragment();
                 case 1:
-                    return new FullSubnetsFragment();
+                    return new EqualSubnetsFragment();
                 case 2:
                     return new FullSubnetsFragment();
             }
