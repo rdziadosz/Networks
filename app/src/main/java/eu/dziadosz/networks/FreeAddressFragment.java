@@ -47,8 +47,8 @@ public class FreeAddressFragment extends Fragment {
     @BindView(R.id.first_free)
     TextView firstFreeAddress;
 
-    private int freeAddresses;
-    private int takenAddresses;
+    private long freeAddresses;
+    private long takenAddresses;
 
     private Snackbar incorrectAddressSnack;
 
@@ -59,6 +59,7 @@ public class FreeAddressFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_free_address, container, false);
         incorrectAddressSnack = Snackbar.make(rootView.getRootView(), "Niepoprawne dane wejściowe!", Snackbar.LENGTH_INDEFINITE);
         ButterKnife.bind(this, rootView);
+        ipChanged();
         return rootView;
 
     }
@@ -93,11 +94,16 @@ public class FreeAddressFragment extends Fragment {
             SubnetUtils subnet = new SubnetUtils(ip1.getText().toString() + "." +
                     ip2.getText().toString() + "." + ip3.getText().toString() + "." + ip4.getText().toString() +
                     "/" + maskBits.getText().toString());
-            if (subnet.getInfo().getAddressCountLong() > Integer.valueOf(hostsNumber.getText().toString())) {
+            if (subnet.getInfo().getAddressCountLong() < Integer.valueOf(hostsNumber.getText().toString())) {
                 throw new IllegalArgumentException("Za dużo hostów!");
             }
+            takenAddresses = Long.valueOf(takenCount.getText().toString());
+            long freeAtStartCount = Long.valueOf(freeAtStart.getText().toString());
             long free = subnet.getInfo().getAddressCountLong() - takenAddresses;
-            if(free > 0) {
+            long reserved = (int) (takenAddresses + freeAtStartCount);
+            if(free > 0 || subnet.getInfo().getAllAddresses().length < reserved) {
+                String firstFreeAddressString = subnet.getInfo().getAllAddresses()[(int) reserved];
+                firstFreeAddress.setText(firstFreeAddressString);
                 freeCount.setText(String.valueOf(free));
             } else {
                 throw new IllegalArgumentException("Za dużo zajętych adresów");
