@@ -135,7 +135,7 @@ public class NetworksActivity extends AppCompatActivity implements FullSubnetsFr
                 case 1:
                     return new FullSubnetsFragment();
                 case 2:
-                    return new FullSubnetsFragment();
+                    return new FreeAddressFragment();
             }
             return null;
         }

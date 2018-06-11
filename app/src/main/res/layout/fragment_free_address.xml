@@ -212,7 +212,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.8"
                 android:gravity="start"
-                android:text="Zarezerwowane adresy"
+                android:text="Pierwszy wolny"
                 android:textColor="@android:color/black" />
 
             <TextView
