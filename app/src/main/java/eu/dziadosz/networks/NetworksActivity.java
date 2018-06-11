@@ -41,7 +41,7 @@ public class NetworksActivity extends AppCompatActivity implements FullSubnetsFr
                 new String[]{
                         "Generowanie sieci pełnych",
                         "Równe podsieci",
-                        "Minimalna liczba wolnych adresów w podsieci",
+                        "Wolne adresy w podsieci",
                 }));
 
         spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
