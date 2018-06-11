@@ -148,13 +148,12 @@ public class FullSubnetsFragment extends Fragment {
     protected void showAllAddresses() {
         ArrayList<SubnetUtils> podsieci=dzielNaPodsieci(Integer.parseInt(hostsNumber.getText().toString()),Integer.parseInt(maskBits.getText().toString()),ip1.getText().toString() + "." +
                 ip2.getText().toString() + "." + ip3.getText().toString() + "." + ip4.getText().toString());
-        ArrayList<String> podsieciString=new ArrayList<>();
-        for (SubnetUtils p:podsieci) {
-            podsieciString.add(p.getInfo().getCidrSignature());
-            Log.v("DUPA_DEBUG",p.getInfo().getCidrSignature());
+        String[] subnetsArray = new String[podsieci.size()];
+        for (int i = 0; i < podsieci.size(); i ++) {
+            subnetsArray[i] = podsieci.get(i).getInfo().getCidrSignature();
         }
         Intent intent = new Intent(getActivity(), AllAddressesActivity.class);
-        intent.putExtra(Constants.ADDRESSES, podsieciString);
+        intent.putExtra(Constants.ADDRESSES, subnetsArray);
         startActivity(intent);
     }
     @OnTextChanged({
