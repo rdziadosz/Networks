@@ -7,13 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 public class AddressesAdapter extends RecyclerView.Adapter<AddressesAdapter.AddressViewHolder> {
     String[] addressArray;
+    private OnAddressClickListener onClickListener;
 
-    public AddressesAdapter(String[] addressArray) {
+    public AddressesAdapter(String[] addressArray, OnAddressClickListener listener) {
         this.addressArray = addressArray;
+        this.onClickListener = listener;
     }
 
     @NonNull
@@ -25,7 +25,8 @@ public class AddressesAdapter extends RecyclerView.Adapter<AddressesAdapter.Addr
 
     @Override
     public void onBindViewHolder(@NonNull AddressViewHolder holder, int position) {
-        holder.address.setText(addressArray[position]);
+        holder.addressTV.setText(addressArray[position]);
+        holder.address = addressArray[position];
     }
 
     @Override
@@ -34,11 +35,17 @@ public class AddressesAdapter extends RecyclerView.Adapter<AddressesAdapter.Addr
     }
 
     public class AddressViewHolder extends RecyclerView.ViewHolder {
-        public TextView address;
-
+        public TextView addressTV;
+        public String address;
         public AddressViewHolder(View itemView) {
             super(itemView);
-            address = itemView.findViewById(R.id.address_name);
+            addressTV = itemView.findViewById(R.id.address_name);
+            addressTV.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onClickListener.onAddressClick(address);
+                }
+            });
         }
     }
 }

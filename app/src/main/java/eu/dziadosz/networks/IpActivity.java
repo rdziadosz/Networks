@@ -64,8 +64,6 @@ public class IpActivity extends AppCompatActivity {
     TextView lowestAdrBinary;
     @BindView(R.id.highest_adr_binary)
     TextView highestAdrBinary;
-    @BindView(R.id.show_all_addresses_btn)
-    Button showAddressesBtn;
 
     private Snackbar incorrectAddressSnack;
     private SubnetUtils subnet;
@@ -75,7 +73,12 @@ public class IpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         incorrectAddressSnack = Snackbar.make(network, "Niepoprawny adres IP", Snackbar.LENGTH_INDEFINITE);
-        ipChanged();
+        String address = getIntent().getStringExtra(Constants.ADDRESS);
+        String[] addressParts = address.split("\\.");
+        ip1.setText(addressParts[0]);
+        ip2.setText(addressParts[1]);
+        ip3.setText(addressParts[2]);
+        ip4.setText(addressParts[3]);
     }
     @OnTextChanged({
             R.id.ip1,
@@ -140,13 +143,6 @@ public class IpActivity extends AppCompatActivity {
         }
         return true;
     }
-    @OnClick(R.id.show_all_addresses_btn)
-    protected void showAllAddresses() {
-
-        Intent intent = new Intent(this, AllAddressesActivity.class);
-        intent.putExtra(Constants.ADDRESSES, subnet.getInfo().getAllAddresses());
-        startActivity(intent);
-    }
     @OnEditorAction({
             R.id.ip1,
             R.id.ip2,
@@ -168,7 +164,6 @@ public class IpActivity extends AppCompatActivity {
             highestAdr.setText(subnet.getInfo().getHighAddress());
             addressCount.setText(String.valueOf(subnet.getInfo().getAddressCountLong()));
             incorrectAddressSnack.dismiss();
-            showAddressesBtn.setEnabled(true);
 
         } catch (IllegalArgumentException e) {
             incorrectAddressSnack.show();

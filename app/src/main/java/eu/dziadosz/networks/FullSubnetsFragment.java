@@ -22,6 +22,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnEditorAction;
+import butterknife.OnTextChanged;
 
 
 /**
@@ -99,11 +100,12 @@ public class FullSubnetsFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_full_subnets, container, false);
         ButterKnife.bind(this, view);
-        incorrectAddressSnack = Snackbar.make(view, "Niepoprawne dane wejściowe!", Snackbar.LENGTH_INDEFINITE);
+        incorrectAddressSnack = Snackbar.make(view.getRootView(), "Niepoprawne dane wejściowe!", Snackbar.LENGTH_INDEFINITE);
         ArrayList<SubnetUtils> podsieci=dzielNaPodsieci(39,24,"192.168.1.0");
         for (SubnetUtils p:podsieci) {
             Log.v("DUPA_DEBUG",p.getInfo().getCidrSignature());
         }
+        ipChanged();
         return view;
     }
 
@@ -148,12 +150,21 @@ public class FullSubnetsFragment extends Fragment {
 
     @OnClick(R.id.show_all_addresses_btn)
     protected void showAllAddresses() {
-
         Intent intent = new Intent(getActivity(), AllAddressesActivity.class);
         intent.putExtra(Constants.ADDRESSES, subnet.getInfo().getAllAddresses());
         startActivity(intent);
     }
-
+    @OnTextChanged({
+            R.id.ip1,
+            R.id.ip2,
+            R.id.ip3,
+            R.id.ip4,
+            R.id.mask_bits,
+            R.id.hosts_number,
+    })
+    protected void textChange() {
+        ipChanged();
+    }
     @OnEditorAction({
             R.id.ip1,
             R.id.ip2,
@@ -162,12 +173,14 @@ public class FullSubnetsFragment extends Fragment {
             R.id.mask_bits,
             R.id.hosts_number,
     })
+    protected boolean editorialAction() {
+        return ipChanged();
+    }
     protected boolean ipChanged() {
         try {
             subnet = new SubnetUtils(ip1.getText().toString() + "." +
                     ip2.getText().toString() + "." + ip3.getText().toString() + "." + ip4.getText().toString() +
                     "/" + maskBits.getText().toString());
-
             if (subnet.getInfo().getAddressCountLong() > Integer.valueOf(hostsNumber.getText().toString())) {
                 throw new IllegalArgumentException("Za dużo hostów!");
             }

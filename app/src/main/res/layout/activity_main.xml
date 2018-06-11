@@ -282,16 +282,5 @@
             android:layout_weight="0.5"
             android:gravity="end" />
     </LinearLayout>
-    <View
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
-    <android.support.v7.widget.AppCompatButton
-        android:id="@+id/show_all_addresses_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Wyświetl wszystkie adresy"
-        android:textColor="@android:color/white"
-        app:backgroundTint="@color/colorPrimary"
-        android:enabled="false"/>
+
 </LinearLayout>

@@ -1,5 +1,6 @@
 package eu.dziadosz.networks;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -22,6 +23,14 @@ public class AllAddressesActivity extends AppCompatActivity {
         rootRecyclerView.setLayoutManager(mLayoutManager);
         rootRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        rootRecyclerView.setAdapter(new AddressesAdapter(addresses));
+        rootRecyclerView.setAdapter(new AddressesAdapter(addresses, addressClickListener));
     }
+    private OnAddressClickListener addressClickListener = new OnAddressClickListener() {
+        @Override
+        public void onAddressClick(String address) {
+            Intent intent = new Intent(AllAddressesActivity.this, IpActivity.class);
+            intent.putExtra(Constants.ADDRESS, address);
+            startActivity(intent);
+        }
+    };
 }
